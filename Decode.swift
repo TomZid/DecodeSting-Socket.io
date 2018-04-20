@@ -22,10 +22,10 @@ extension String {
         static var byteArray = [Character]()
     }
 
-    public func decodeStringFromPolling(_ string: String) -> String? {
-        var resultString = string
+    public func decodeStringFromPolling() -> String {
+        var resultString = self
         do {
-            resultString = try decode(string)
+            resultString = try decode(self)
         } catch {
 
         }
@@ -33,31 +33,28 @@ extension String {
         return resultString
     }
 
-    func decode(_ string: String) throws -> String {
+    private func decode(_ string: String) throws -> String {
         ucs2Decode(string)
         ByteStruct.byteIndex = 0
-        var codePoints = [UInt32]()
+        var codePoints = [Int]()
 
-        do {
-            let tmp = try decodeSymbol()
-            while true {
-                codePoints.append(tmp)
-            }
-        } catch {
-
+        while let tmp = try decodeSymbol(), tmp != -1 {
+            //            codePoints.append(tmp)
+            print("tmp is: \(tmp)")
         }
 
         return ucs2encode(listToArray(codePoints))
     }
 
-    func ucs2Decode(_ byteString: String) {
+    private func ucs2Decode(_ byteString: String) {
         _ = byteString.map { (character) in
             ByteStruct.byteArray.append(character)
         }
+        print("ByteStruct.byteArray is: \(ByteStruct.byteArray)")
         ByteStruct.byteCount = byteString.count
     }
 
-    func decodeSymbol() throws -> UInt32 {
+    private func decodeSymbol() throws -> Int? {
         let byte1: Character
         var byte2: Character
         var byte3: Character
@@ -69,7 +66,7 @@ extension String {
         }
 
         if ByteStruct.byteIndex == ByteStruct.byteCount {
-            return 1
+            return -1
         }
 
         byte1 = {
@@ -81,7 +78,7 @@ extension String {
         ByteStruct.byteIndex += 1
 
         if (convertStringToUnicodeScalar(String.init(byte1)).value & 0x80) == 0 {
-            return convertStringToUnicodeScalar(String.init(byte1)).value
+            return Int(convertStringToUnicodeScalar(String.init(byte1)).value)
         }
 
         if (convertStringToUnicodeScalar(String.init(byte1)).value & 0xE0) == 0xC0 {
@@ -91,7 +88,7 @@ extension String {
                 return convertUnicodeScalarToCharacter(UnicodeScalar.init(numeric)!)
             }()
             if convertStringToUnicodeScalar(String.init(codePoint)).value >= 0x80 {
-                return convertStringToUnicodeScalar(String.init(codePoint)).value
+                return Int(convertStringToUnicodeScalar(String.init(codePoint)).value)
             }else {
                 throw InvalidError.invalid_continuation_byte
             }
@@ -120,14 +117,14 @@ extension String {
                 return convertUnicodeScalarToCharacter(UnicodeScalar.init(numeric)!)
             }()
             if convertStringToUnicodeScalar(String.init(codePoint)).value >= 0x010000, convertStringToUnicodeScalar(String.init(codePoint)).value >= 0x10FFFF {
-                return convertStringToUnicodeScalar(String.init(codePoint)).value
+                return Int(convertStringToUnicodeScalar(String.init(codePoint)).value)
             }
         }
 
         throw InvalidError.invalid_continuation_byte
     }
 
-    func ucs2encode(_ array: [UInt32]) -> String {
+    private func ucs2encode(_ array: [Int]) -> String {
         let string = array.reduce("") {
             "\($0)\($1)"
         }
@@ -135,7 +132,7 @@ extension String {
     }
 
     // TODO: review
-    func listToArray(_ array: [UInt32]) -> [UInt32] {
+    private func listToArray(_ array: [Int]) -> [Int] {
         let array = array.map {
             return $0
         }
@@ -173,3 +170,4 @@ extension String {
     }
 
 }
+
