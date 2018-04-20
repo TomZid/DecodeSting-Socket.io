@@ -127,12 +127,19 @@ extension String {
         throw InvalidError.invalid_continuation_byte
     }
 
-    func ucs2encode(_ array: [Int]) -> String {
-        return ""
+    func ucs2encode(_ array: [UInt32]) -> String {
+        let string = array.reduce("") {
+            "\($0)\($1)"
+        }
+        return string
     }
 
-    func listToArray(_ array: [UInt32]) -> [Int] {
-        return [1]
+    // TODO: review
+    func listToArray(_ array: [UInt32]) -> [UInt32] {
+        let array = array.map {
+            return $0
+        }
+        return array
     }
 
     private func convertUnicodeScalarToCharacter(_ unicodeScalar: UnicodeScalar) -> Character {
