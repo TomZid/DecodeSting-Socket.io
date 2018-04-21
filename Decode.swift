@@ -46,7 +46,7 @@ extension String {
         var codePoints = [Int]()
 
         while let tmp = try decodeSymbol(), tmp != -1 {
-            //            codePoints.append(tmp)
+            codePoints.append(tmp)
             print("tmp is: \(tmp)")
         }
 
