@@ -23,6 +23,13 @@ extension String {
     }
 
     public func decodeStringFromPolling() -> String {
+        
+        defer {
+            ByteStruct.byteArray = [Character]()
+            ByteStruct.byteCount = 0
+            ByteStruct.byteIndex = 0
+        }
+        
         var resultString = self
         do {
             resultString = try decode(self)
@@ -60,7 +67,7 @@ extension String {
         var byte3: Character
         var byte4: Character
         var codePoint: Character
-
+        
         if ByteStruct.byteIndex > ByteStruct.byteCount {
             throw InvalidError.invalid_byte_index
         }
@@ -143,9 +150,8 @@ extension String {
         return Character.init(unicodeScalar)
     }
 
-    private func convertStringToUnicodeScalar(_ sting: String) -> UnicodeScalar {
-
-        return UnicodeScalar.init(1)
+    private func convertStringToUnicodeScalar(_ string: String) -> UnicodeScalar {
+        return UnicodeScalar.init(string)!
     }
 
     private func readContinuationByte() throws -> Character {
