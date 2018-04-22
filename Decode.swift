@@ -31,11 +31,7 @@ extension String {
         }
         
         var resultString = self
-        do {
-            resultString = try decode(self)
-        } catch {
-
-        }
+        do { resultString = try decode(self) } catch {}
 
         return resultString
     }
@@ -49,8 +45,8 @@ extension String {
             codePoints.append(tmp)
             print("tmp is: \(tmp)")
         }
-
-        return ucs2encode(listToArray(codePoints))
+        
+        return ucs2encode(codePoints)
     }
 
     private func ucs2Decode(_ byteString: String) {
@@ -139,13 +135,6 @@ extension String {
         return string
     }
 
-    private func listToArray(_ array: [Int]) -> [Int] {
-        let array = array.map {
-            return $0
-        }
-        return array
-    }
-
     private func convertUnicodeScalarToCharacter(_ unicodeScalar: UnicodeScalar) -> Character {
         return Character.init(unicodeScalar)
     }
@@ -176,4 +165,3 @@ extension String {
     }
 
 }
-
