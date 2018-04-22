@@ -93,6 +93,7 @@
 		F74784DF20884DDD00EA5101 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = TZ;
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = TZ;
@@ -103,7 +104,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F74784E220884DDD00EA5101 /* Build configuration list for PBXProject "DecodeString" */;
+			buildConfigurationList = F74784E220884DDD00EA5101 /* Build configuration list for PBXProject "DecodeString-Socket.IO" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -307,7 +308,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F74784E220884DDD00EA5101 /* Build configuration list for PBXProject "DecodeString" */ = {
+		F74784E220884DDD00EA5101 /* Build configuration list for PBXProject "DecodeString-Socket.IO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F74784F720884DDD00EA5101 /* Debug */,

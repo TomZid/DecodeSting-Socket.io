@@ -2,7 +2,7 @@
 //  Decode.swift
 //  DecodeString
 //
-//  Created by tom on 2018/4/19.
+//  Created by tom.zid on 2018/4/19.
 //  Copyright © 2018年 TZ. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
 
-    enum InvalidError: Error {
+    private enum InvalidError: Error {
         case invalid_byte_index
         case invalid_continuation_byte
         case invalid_Stirng(string: String)
@@ -133,12 +133,12 @@ extension String {
 
     private func ucs2encode(_ array: [Int]) -> String {
         let string = array.reduce("") {
-            "\($0)\($1)"
+            let rhs = String.init(Character.init(UnicodeScalar.init($1)!))
+            return $0 + rhs
         }
         return string
     }
 
-    // TODO: review
     private func listToArray(_ array: [Int]) -> [Int] {
         let array = array.map {
             return $0

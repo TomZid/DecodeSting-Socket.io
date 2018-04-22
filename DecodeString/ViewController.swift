@@ -17,7 +17,8 @@ class ViewController: UIViewController {
 
     @IBAction func click() {
         let string = "[帅气]"
-        print(string.decodeStringFromPolling())
+        let resultString = string.decodeStringFromPolling()
+        print("resultString is: \(resultString)")
     }
 
     override func didReceiveMemoryWarning() {
